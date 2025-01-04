@@ -51,15 +51,24 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> register(String username, String email, String password) async {
+  Future<bool> register(String username, String email, String password) async {
     try {
-      await _dio.post('$baseUrl/auth/create-user/', data: {
+      state = AuthState(isLoggedIn: false, isLoading: true);
+      final response = await _dio.post('$baseUrl/auth/create-user/', data: {
         'username': username,
         'email': email,
         'password': password,
       });
+
+      if (response.statusCode == 201) {
+        state = AuthState(isLoggedIn: false, isLoading: false);
+        return true;
+      }
+
+      return false;
     } catch (e) {
-      rethrow;
+      state = AuthState(isLoggedIn: false, isLoading: false);
+      return false;
     }
   }
 

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:popilot_mobile/providers/auth_provider.dart';
 import 'package:popilot_mobile/shared/notification.dart';
 import 'package:popilot_mobile/utils/colors.dart';
 
-class SignInForm extends ConsumerStatefulWidget {
-  const SignInForm({super.key});
+class SignUpForm extends ConsumerStatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  ConsumerState<SignInForm> createState() => _SignInFormState();
+  ConsumerState<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignInFormState extends ConsumerState<SignInForm> {
+class _SignUpFormState extends ConsumerState<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   bool _enableBtn = false;
   String username = '';
+  String email = '';
   String password = '';
 
   @override
@@ -37,6 +39,22 @@ class _SignInFormState extends ConsumerState<SignInForm> {
                 borderSide: BorderSide(color: AppColors.lapislazuli),
               ),
               labelText: 'Usuario',
+              floatingLabelStyle: TextStyle(color: AppColors.lapislazuli),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            validator: (value) =>
+                value == null || value.isEmpty || !value.contains("@")
+                    ? "Correo inválido"
+                    : null,
+            onSaved: (value) => email = value!,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.lapislazuli),
+              ),
+              labelText: 'Correo',
               floatingLabelStyle: TextStyle(color: AppColors.lapislazuli),
             ),
           ),
@@ -75,9 +93,10 @@ class _SignInFormState extends ConsumerState<SignInForm> {
                       strokeWidth: 2,
                     ),
                   )
-                : const Icon(Icons.login, color: AppColors.white),
+                : const Icon(Icons.app_registration_outlined,
+                    color: AppColors.white),
             label: Text(
-              authState.isLoading ? 'Cargando...' : 'Iniciar sesión',
+              authState.isLoading ? 'Cargando...' : 'Registrarse',
               style: TextStyle(
                   color: authState.isLoading
                       ? AppColors.lapislazuli
@@ -89,17 +108,17 @@ class _SignInFormState extends ConsumerState<SignInForm> {
 
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      final success =
-                          await authNotifier.signIn(username, password);
+                      final success = await authNotifier.register(
+                          username, email, password);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        CustomNotification(
-                          message: success
-                              ? 'Bienvenido a PoPilot'
-                              : 'Error al iniciar sesion',
-                          status: success ? 'success' : 'error',
-                        ),
-                      );
+                      success
+                          ? context.go('/')
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              CustomNotification(
+                                message: 'Error al registrarse',
+                                status: 'error',
+                              ),
+                            );
                     }
                     _formKey.currentState!.reset();
                   }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:popilot_mobile/utils/colors.dart';
-import 'package:popilot_mobile/widgets/sign_in/sign_in_form.dart';
+import 'package:popilot_mobile/widgets/sign_up/sign_up_form.dart';
 
-class SignInScreen extends ConsumerStatefulWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends ConsumerStatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  ConsumerState<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends ConsumerState<SignInScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +23,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             children: [
               const Image(
                 height: 300,
-                image: AssetImage('assets/images/login.png'),
+                image: AssetImage('assets/images/sign-up.png'),
               ),
               const SizedBox(height: 10),
               const Text(
-                'Bienvenido a PoPilot',
+                'Registrate en PoPilot',
                 style: TextStyle(
                     color: AppColors.erieblack,
                     fontWeight: FontWeight.bold,
@@ -36,14 +36,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               const SizedBox(height: 15),
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                child: SignInForm(),
+                child: SignUpForm(),
               ),
               TextButton(
                 onPressed: () {
-                  context.go('/sign-up');
+                  context.go('/');
                 },
                 child: const Text(
-                  '¿No tienes una cuenta? Regístrate',
+                  '¿Ya tienes una cuenta? Inicia sesión',
                   style: TextStyle(
                     color: AppColors.moonstone,
                     fontWeight: FontWeight.bold,
