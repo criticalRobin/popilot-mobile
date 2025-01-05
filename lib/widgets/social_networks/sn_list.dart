@@ -46,20 +46,20 @@ class _SnListState extends ConsumerState<SnList> {
                       end: Alignment.centerRight, // Changed gradient direction
                       colors: socialNetwork.socialNetworkType == 'FB'
                           ? [
-                              AppColors.lapislazuli.withOpacity(0.1),
-                              AppColors.lapislazuli.withOpacity(0.3),
+                              AppColors.lapislazuli.withValues(alpha: 0.1),
+                              AppColors.lapislazuli.withValues(alpha: 0.3),
                             ]
                           : [
-                              AppColors.erieblack.withOpacity(0.1),
-                              AppColors.erieblack.withOpacity(0.3),
+                              AppColors.erieblack.withValues(alpha: 0.1),
+                              AppColors.erieblack.withValues(alpha: 0.3),
                             ],
                     ),
                     borderRadius:
                         BorderRadius.circular(12), // Add rounded corners
                     border: Border.all(
                       color: socialNetwork.socialNetworkType == 'FB'
-                          ? AppColors.lapislazuli.withOpacity(0.3)
-                          : AppColors.erieblack.withOpacity(0.3),
+                          ? AppColors.lapislazuli.withValues(alpha: 0.3)
+                          : AppColors.erieblack.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),

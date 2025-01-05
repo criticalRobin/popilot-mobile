@@ -18,51 +18,51 @@ class _PopilotBottomNavigationBarState
     final location = GoRouterState.of(context).location;
     final isPremiumUser = ref.watch(authProvider).isPremiumUser;
 
-    int currentIndex = switch (location) {
+    final items = <BottomNavigationBarItem>[
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Home',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.people_alt_sharp),
+        label: 'Redes',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.article),
+        label: 'Posts',
+      ),
+      if (isPremiumUser == false)
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.star),
+          label: 'Premium',
+        ),
+    ];
+
+    final currentIndex = switch (location) {
       '/home' => 0,
       '/socials' => 1,
       '/posts' => 2,
-      '/premium' => 3,
+      '/premium' when isPremiumUser == false => 3,
       _ => 0,
     };
+
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      currentIndex: currentIndex,
+      currentIndex: currentIndex < items.length ? currentIndex : 0,
       onTap: (int index) {
-        switch (index) {
-          case 0:
-            GoRouter.of(context).go('/home');
-            break;
-          case 1:
-            GoRouter.of(context).go('/socials');
-            break;
-          case 2:
-            GoRouter.of(context).go('/posts');
-            break;
-          case 3:
-            GoRouter.of(context).go('/premium');
-            break;
-        }
+        if (index >= items.length) return;
+
+        final route = switch (index) {
+          0 => '/home',
+          1 => '/socials',
+          2 => '/posts',
+          3 when isPremiumUser == false => '/premium',
+          _ => '/home',
+        };
+
+        context.go(route);
       },
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.people_alt_sharp),
-          label: 'Redes',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.article),
-          label: 'Posts',
-        ),
-        if (isPremiumUser == false)
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Premium',
-          ),
-      ],
+      items: items,
     );
   }
 }
