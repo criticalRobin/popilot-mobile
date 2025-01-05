@@ -57,7 +57,7 @@ class _PopilotBottomNavigationBarState
           1 => '/socials',
           2 => '/posts',
           3 when isPremiumUser == false => '/premium',
-          _ => '/home',
+          _ => '/',
         };
 
         context.go(route);

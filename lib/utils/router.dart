@@ -1,8 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:popilot_mobile/screens/create_update_facebook_screen.dart';
+import 'package:popilot_mobile/screens/create_update_x_screen.dart';
 import 'package:popilot_mobile/screens/home_screen.dart';
 import 'package:popilot_mobile/screens/premium_screen.dart';
 import 'package:popilot_mobile/screens/sign_in_screen.dart';
 import 'package:popilot_mobile/screens/sign_up_screen.dart';
+import 'package:popilot_mobile/screens/social_network_type_create_screen.dart';
 import 'package:popilot_mobile/screens/social_networks_screen.dart';
 
 final router = GoRouter(
@@ -20,6 +23,28 @@ final router = GoRouter(
       pageBuilder: (content, state) => NoTransitionPage(
         child: SocialNetworksScreen(),
       ),
+      routes: [
+        GoRoute(
+          path: 'type',
+          pageBuilder: (content, state) => NoTransitionPage(
+            child: SocialNetworkTypeCreateScreen(),
+          ),
+          routes: [
+            GoRoute(
+              path: 'facebook',
+              pageBuilder: (content, state) => NoTransitionPage(
+                child: CreateUpdateFacebookScreen(),
+              ),
+            ),
+            GoRoute(
+              path: 'x',
+              pageBuilder: (content, state) => NoTransitionPage(
+                child: CreateUpdateXScreen(),
+              ),
+            ),
+          ],
+        ),
+      ],
     ),
     GoRoute(
       path: '/premium',

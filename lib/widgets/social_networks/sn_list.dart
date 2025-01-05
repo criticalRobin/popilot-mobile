@@ -69,7 +69,7 @@ class _SnListState extends ConsumerState<SnList> {
             );
           }
 
-          if (snapshot.data == null) {
+          if (snapshot.hasError) {
             SchedulerBinding.instance.addPostFrameCallback(
               (_) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -82,12 +82,12 @@ class _SnListState extends ConsumerState<SnList> {
             );
 
             return const Center(
-              child: Text('No hay redes sociales disponibles'),
+              child: Text('Sin redes sociales'),
             );
           }
 
           return const Center(
-            child: Text('Error al cargar las redes sociales'),
+            child: Text('Sin redes sociales'),
           );
         },
       ),
