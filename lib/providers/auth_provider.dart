@@ -87,4 +87,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = AuthState(isLoggedIn: false, isLoading: false);
     }
   }
+
+  Future<void> signOut() async {
+    await storage.delete(key: 'token');
+    await storage.delete(key: 'user');
+    state = AuthState(isLoggedIn: false);
+  }
 }

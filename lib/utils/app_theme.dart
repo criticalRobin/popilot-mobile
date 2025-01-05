@@ -18,6 +18,15 @@ ThemeData buildAppTheme() {
         fontWeight: FontWeight.bold,
       ),
     ),
+    bottomNavigationBarTheme: base.bottomNavigationBarTheme.copyWith(
+      backgroundColor: AppColors.white,
+      selectedItemColor: AppColors.lapislazuli,
+      unselectedItemColor: AppColors.moonstone,
+      type: BottomNavigationBarType.fixed,
+      elevation: 8,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+    ),
     textTheme: base.textTheme.copyWith(
       bodyLarge: base.textTheme.bodyLarge?.copyWith(
         color: AppColors.erieblack,

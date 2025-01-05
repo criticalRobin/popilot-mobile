@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:popilot_mobile/providers/auth_provider.dart';
 import 'package:popilot_mobile/shared/notification.dart';
 import 'package:popilot_mobile/utils/colors.dart';
@@ -92,15 +93,16 @@ class _SignInFormState extends ConsumerState<SignInForm> {
                       final success =
                           await authNotifier.signIn(username, password);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        CustomNotification(
-                          message: success
-                              ? 'Bienvenido a PoPilot'
-                              : 'Error al iniciar sesion',
-                          status: success ? 'success' : 'error',
-                        ),
-                      );
+                      success
+                          ? context.go('/home')
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              CustomNotification(
+                                message: 'Error al iniciar sesion',
+                                status: 'error',
+                              ),
+                            );
                     }
+
                     _formKey.currentState!.reset();
                   }
                 : null,
