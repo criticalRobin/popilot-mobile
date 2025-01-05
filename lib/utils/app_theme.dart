@@ -11,9 +11,9 @@ ThemeData buildAppTheme() {
     ),
     scaffoldBackgroundColor: AppColors.white,
     appBarTheme: base.appBarTheme.copyWith(
-      backgroundColor: AppColors.lapislazuli,
+      backgroundColor: AppColors.white,
       titleTextStyle: base.textTheme.titleLarge?.copyWith(
-        color: AppColors.white,
+        color: AppColors.erieblack,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
@@ -21,7 +21,7 @@ ThemeData buildAppTheme() {
     bottomNavigationBarTheme: base.bottomNavigationBarTheme.copyWith(
       backgroundColor: AppColors.white,
       selectedItemColor: AppColors.lapislazuli,
-      unselectedItemColor: AppColors.moonstone,
+      unselectedItemColor: AppColors.erieblack,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
       showSelectedLabels: true,

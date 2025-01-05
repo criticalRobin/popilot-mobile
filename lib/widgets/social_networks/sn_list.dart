@@ -39,7 +39,7 @@ class _SnListState extends ConsumerState<SnList> {
                 final socialNetwork = socialNetworks[index];
                 return Container(
                   margin: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0), // Add margin
+                      horizontal: 16.0, vertical: 8.0),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.centerLeft,

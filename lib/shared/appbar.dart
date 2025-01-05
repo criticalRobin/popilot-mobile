@@ -20,7 +20,7 @@ class _PopilotAppbarState extends ConsumerState<PopilotAppbar> {
     return Row(
       children: [
         Image(
-          image: AssetImage('assets/images/popilot.webp'),
+          image: AssetImage('assets/images/popilot.png'),
           fit: BoxFit.cover,
           height: 45,
           width: 125,
@@ -30,7 +30,7 @@ class _PopilotAppbarState extends ConsumerState<PopilotAppbar> {
         IconButton(
           icon: Icon(
             Icons.logout,
-            color: AppColors.white,
+            color: AppColors.erieblack,
           ),
           onPressed: () async {
             await authNotifier.signOut();

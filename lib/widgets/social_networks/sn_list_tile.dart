@@ -14,7 +14,7 @@ class SocialNetworksListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20, vertical: 8), // Add padding
+          horizontal: 20, vertical: 8),
       leading: Icon(
         socialNetwork.socialNetworkType == 'FB'
             ? Icons.facebook

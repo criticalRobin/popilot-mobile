@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:popilot_mobile/utils/colors.dart';
+import 'package:popilot_mobile/providers/auth_provider.dart';
 
-class PopilotBottomNavigationBar extends StatelessWidget {
+class PopilotBottomNavigationBar extends ConsumerStatefulWidget {
   const PopilotBottomNavigationBar({super.key});
 
   @override
+  ConsumerState<PopilotBottomNavigationBar> createState() =>
+      _PopilotBottomNavigationBarState();
+}
+
+class _PopilotBottomNavigationBarState
+    extends ConsumerState<PopilotBottomNavigationBar> {
+  @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).location;
+    final isPremiumUser = ref.watch(authProvider).isPremiumUser;
 
     int currentIndex = switch (location) {
       '/home' => 0,
@@ -48,10 +57,11 @@ class PopilotBottomNavigationBar extends StatelessWidget {
           icon: Icon(Icons.article),
           label: 'Posts',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.star),
-          label: 'Premium',
-        ),
+        if (isPremiumUser == false)
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Premium',
+          ),
       ],
     );
   }
