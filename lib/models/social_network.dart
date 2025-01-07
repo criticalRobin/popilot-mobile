@@ -4,7 +4,7 @@ part 'social_network.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SocialNetworkModel {
-  final int id;
+  final int? id;
   final String name;
   final String socialNetworkType;
   final String? createdAt;
@@ -12,7 +12,7 @@ class SocialNetworkModel {
   final int? userOwner;
 
   SocialNetworkModel({
-    required this.id,
+    this.id,
     required this.name,
     required this.socialNetworkType,
     this.createdAt,

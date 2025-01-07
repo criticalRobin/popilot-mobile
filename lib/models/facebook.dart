@@ -11,7 +11,7 @@ class FacebookModel extends SocialNetworkModel {
   FacebookModel({
     required this.pageId,
     required this.pageAccessToken,
-    required super.id,
+    super.id,
     required super.name,
     required super.socialNetworkType,
     super.createdAt,
