@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:popilot_mobile/shared/appbar.dart';
-import 'package:popilot_mobile/shared/bottom_navigation.dart';
 import 'package:popilot_mobile/utils/colors.dart';
 
 class SocialNetworkTypeCreateScreen extends StatelessWidget {

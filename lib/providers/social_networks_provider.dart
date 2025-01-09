@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:popilot_mobile/models/facebook.dart';
 import 'package:popilot_mobile/models/social_network.dart';
 import 'package:popilot_mobile/models/social_networks_response.dart';
+import 'package:popilot_mobile/models/x.dart';
 
 final socialNetworkProvider =
     StateNotifierProvider<SocialNetworksNotifier, SocialNetworksState>(
@@ -47,7 +48,7 @@ class SocialNetworksNotifier extends StateNotifier<SocialNetworksState> {
     }
   }
 
-  Future<bool> createSocialNetwork(FacebookModel fb) async {
+  Future<bool> createFacebookAccount(FacebookModel fb) async {
     try {
       state = SocialNetworksState(isLoading: true);
       _dio.options.headers['Authorization'] =
@@ -59,6 +60,36 @@ class SocialNetworksNotifier extends StateNotifier<SocialNetworksState> {
           'name': fb.name,
           'page_id': fb.pageId,
           'page_access_token': fb.pageAccessToken,
+        },
+      );
+
+      if ((await response).statusCode == 201) {
+        return true;
+      }
+
+      state = SocialNetworksState(isLoading: false);
+      return false;
+    } catch (e) {
+      state = SocialNetworksState(isLoading: false);
+      return false;
+    }
+  }
+
+  Future<bool> createXAccount(XModel x) async {
+    try {
+      state = SocialNetworksState(isLoading: true);
+      _dio.options.headers['Authorization'] =
+          'Bearer ${await _storage.read(key: 'token')}';
+      final response = _dio.post(
+        '$baseUrl/create/',
+        data: {
+          'social_network_type': x.socialNetworkType,
+          'name': x.name,
+          "access_key": x.accessKey,
+          "access_secret": x.accessSecret,
+          "consumer_key": x.consumerKey,
+          "consumer_secret": x.consumerSecret,
+          "bearer_token": x.bearerToken
         },
       );
 

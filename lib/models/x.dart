@@ -17,7 +17,7 @@ class XModel extends SocialNetworkModel {
     required this.consumerKey,
     required this.consumerSecret,
     required this.bearerToken,
-    required super.id,
+    super.id,
     required super.name,
     required super.socialNetworkType,
     super.createdAt,

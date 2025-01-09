@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:popilot_mobile/models/facebook.dart';
+import 'package:popilot_mobile/models/x.dart';
 import 'package:popilot_mobile/providers/social_networks_provider.dart';
 import 'package:popilot_mobile/shared/notification.dart';
 import 'package:popilot_mobile/utils/colors.dart';
 
-class CreateUpdateFbForm extends ConsumerStatefulWidget {
-  const CreateUpdateFbForm({super.key});
+class CreateUpdateXForm extends ConsumerStatefulWidget {
+  const CreateUpdateXForm({super.key});
 
   @override
-  ConsumerState<CreateUpdateFbForm> createState() => _CreateUpdateFbFormState();
+  ConsumerState<CreateUpdateXForm> createState() => _CreateUpdateXFormState();
 }
 
-class _CreateUpdateFbFormState extends ConsumerState<CreateUpdateFbForm> {
+class _CreateUpdateXFormState extends ConsumerState<CreateUpdateXForm> {
   final _formKey = GlobalKey<FormState>();
-  final socialNetworkType = 'FB';
+  final socialNetworkType = 'X';
   String name = '';
-  String pageId = '';
-  String pageAccessToken = '';
+  String accessKey = '';
+  String accessSecret = '';
+  String consumerKey = '';
+  String consumerSecret = '';
+  String bearerToken = '';
   bool _enableBtn = false;
 
   @override
@@ -47,26 +50,65 @@ class _CreateUpdateFbFormState extends ConsumerState<CreateUpdateFbForm> {
           const SizedBox(height: 10),
           TextFormField(
             validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
-            onSaved: (value) => pageId = value!,
+            onSaved: (value) => accessKey = value!,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.lapislazuli),
               ),
-              labelText: 'ID de la página',
+              labelText: 'Llave de acceso',
               floatingLabelStyle: TextStyle(color: AppColors.lapislazuli),
             ),
           ),
           const SizedBox(height: 10),
           TextFormField(
             validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
-            onSaved: (value) => pageAccessToken = value!,
+            onSaved: (value) => accessSecret = value!,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.lapislazuli),
               ),
-              labelText: 'Token de acceso de la página',
+              labelText: 'Llave de acceso secreta',
+              floatingLabelStyle: TextStyle(color: AppColors.lapislazuli),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+            onSaved: (value) => consumerKey = value!,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.lapislazuli),
+              ),
+              labelText: 'Llave de consumidor',
+              floatingLabelStyle: TextStyle(color: AppColors.lapislazuli),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+            onSaved: (value) => consumerSecret = value!,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.lapislazuli),
+              ),
+              labelText: 'Llave de consumidor secreta',
+              floatingLabelStyle: TextStyle(color: AppColors.lapislazuli),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+            onSaved: (value) => bearerToken = value!,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.lapislazuli),
+              ),
+              labelText: 'Token',
               floatingLabelStyle: TextStyle(color: AppColors.lapislazuli),
             ),
           ),
@@ -102,13 +144,15 @@ class _CreateUpdateFbFormState extends ConsumerState<CreateUpdateFbForm> {
 
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      final FacebookModel fb = FacebookModel(
-                        name: name,
-                        socialNetworkType: socialNetworkType,
-                        pageId: pageId,
-                        pageAccessToken: pageAccessToken,
-                      );
-                      final success = await snNotifier.createFacebookAccount(fb);
+                      final XModel x = XModel(
+                          name: name,
+                          socialNetworkType: socialNetworkType,
+                          accessKey: accessKey,
+                          accessSecret: accessSecret,
+                          consumerKey: consumerKey,
+                          consumerSecret: consumerSecret,
+                          bearerToken: bearerToken);
+                      final success = await snNotifier.createXAccount(x);
 
                       if (!success) {
                         ScaffoldMessenger.of(context).showSnackBar(
