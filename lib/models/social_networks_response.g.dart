@@ -16,3 +16,5 @@ SocialNetworksResponseModel _$SocialNetworksResponseModelFromJson(
           .map((e) => XModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+
+

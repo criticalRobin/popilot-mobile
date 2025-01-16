@@ -10,7 +10,7 @@ FacebookModel _$FacebookModelFromJson(Map<String, dynamic> json) =>
     FacebookModel(
       pageId: json['page_id'] as String,
       pageAccessToken: json['page_access_token'] as String,
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String,
       socialNetworkType: json['social_network_type'] as String,
       createdAt: json['created_at'] as String?,

@@ -8,7 +8,7 @@ part of 'social_network.dart';
 
 SocialNetworkModel _$SocialNetworkModelFromJson(Map<String, dynamic> json) =>
     SocialNetworkModel(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String,
       socialNetworkType: json['social_network_type'] as String,
       createdAt: json['created_at'] as String?,

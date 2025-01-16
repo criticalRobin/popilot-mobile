@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:popilot_mobile/screens/create_update_facebook_screen.dart';
 import 'package:popilot_mobile/screens/create_update_x_screen.dart';
 import 'package:popilot_mobile/screens/home_screen.dart';
+import 'package:popilot_mobile/screens/posts_screen.dart';
 import 'package:popilot_mobile/screens/premium_screen.dart';
 import 'package:popilot_mobile/screens/sign_in_screen.dart';
 import 'package:popilot_mobile/screens/sign_up_screen.dart';
@@ -17,6 +18,12 @@ final router = GoRouter(
       path: '/home',
       pageBuilder: (content, state) => NoTransitionPage(
         child: HomeScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/posts',
+      pageBuilder: (content, state) => NoTransitionPage(
+        child: PostsScreen(),
       ),
     ),
     GoRoute(
