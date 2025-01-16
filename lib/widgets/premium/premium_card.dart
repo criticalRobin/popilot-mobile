@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:popilot_mobile/shared/notification.dart';
 import 'package:popilot_mobile/utils/colors.dart';
 import 'package:popilot_mobile/providers/stripe_provider.dart'; // Adjust import path as needed
 
@@ -37,7 +39,9 @@ class _PremiumCardState extends ConsumerState<PremiumCard> {
           context: context,
           barrierDismissible: false,
           builder: (context) => const Center(
-            child: CircularProgressIndicator(color: AppColors.lapislazuli,),
+            child: CircularProgressIndicator(
+              color: AppColors.lapislazuli,
+            ),
           ),
         );
       });
@@ -50,22 +54,14 @@ class _PremiumCardState extends ConsumerState<PremiumCard> {
         Navigator.of(context, rootNavigator: true).pop();
 
         // Show success dialog
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Pago Exitoso'),
-            content: const Text('¡Has activado tu cuenta Premium!'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  // Optionally navigate to another screen or refresh user data
-                },
-                child: const Text('Aceptar'),
-              ),
-            ],
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomNotification(
+            message: '¡Has activado tu cuenta Premium!',
+            status: 'success',
           ),
         );
+
+        context.go('/success');
 
         // Reset the state
         ref.read(stripeProvider.notifier).resetState();

@@ -77,6 +77,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       _dio.options.headers['Authorization'] = 'Bearer $token';
       final response = await _dio.get('$baseUrl/auth/logged-user/');
       final user = UserModel.fromJson(response.data);
+      storage.delete(key: 'user');
       storage.write(key: 'user', value: user.toJson().toString());
       state = AuthState(
           isLoggedIn: true,

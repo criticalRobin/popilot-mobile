@@ -7,6 +7,7 @@ import 'package:popilot_mobile/screens/sign_in_screen.dart';
 import 'package:popilot_mobile/screens/sign_up_screen.dart';
 import 'package:popilot_mobile/screens/social_network_type_create_screen.dart';
 import 'package:popilot_mobile/screens/social_networks_screen.dart';
+import 'package:popilot_mobile/screens/success_screen.dart';
 
 final router = GoRouter(
   routes: [
@@ -50,6 +51,12 @@ final router = GoRouter(
       path: '/premium',
       pageBuilder: (content, state) => NoTransitionPage(
         child: PremiumScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/success',
+      pageBuilder: (content, state) => NoTransitionPage(
+        child: PremiumSuccessScreen(),
       ),
     ),
   ],
