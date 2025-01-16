@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:popilot_mobile/screens/create_post_screen.dart';
 import 'package:popilot_mobile/screens/create_update_facebook_screen.dart';
 import 'package:popilot_mobile/screens/create_update_x_screen.dart';
 import 'package:popilot_mobile/screens/home_screen.dart';
@@ -21,11 +22,18 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
-      path: '/posts',
-      pageBuilder: (content, state) => NoTransitionPage(
-        child: PostsScreen(),
-      ),
-    ),
+        path: '/posts',
+        pageBuilder: (content, state) => NoTransitionPage(
+              child: PostsScreen(),
+            ),
+        routes: [
+          GoRoute(
+            path: 'add-post',
+            pageBuilder: (content, state) => NoTransitionPage(
+              child: CreatePostScreen(),
+            ),
+          ),
+        ]),
     GoRoute(
       path: '/socials',
       pageBuilder: (content, state) => NoTransitionPage(

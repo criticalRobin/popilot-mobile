@@ -5,12 +5,9 @@ import 'package:popilot_mobile/utils/app_theme.dart';
 import 'package:popilot_mobile/utils/router.dart';
 
 void main() {
-  // Ensure Flutter binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Run the app
   runApp(
-    // Wrap with ProviderScope
     ProviderScope(
       child: MyApp(),
     ),
@@ -29,7 +26,6 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
 
-    // Initialize Stripe in the background
     Future.microtask(() {
       ref.read(stripeProvider.notifier).initialize();
     });

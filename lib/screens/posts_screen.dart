@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:popilot_mobile/providers/post_provider.dart';
 import 'package:popilot_mobile/shared/appbar.dart';
 import 'package:popilot_mobile/shared/bottom_navigation.dart';
@@ -60,6 +61,16 @@ class _PostsScreenState extends ConsumerState<PostsScreen> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.lapislazuli,
+        onPressed: () {
+          context.go('/posts/add-post');
+        },
+        child: Icon(
+          Icons.add,
+          color: AppColors.white,
+        ),
       ),
       bottomNavigationBar: const PopilotBottomNavigationBar(),
     );
