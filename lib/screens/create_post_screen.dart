@@ -81,24 +81,36 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
   void _handleSubmit() async {
     if (_formKey.currentState!.validate()) {
+      if (_socialNetworks.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomNotification(
+            message: 'Debe seleccionar al menos una red social',
+            status: 'error',
+          ),
+        );
+        return;
+      }
+
       setState(() {
         _isLoading = true;
       });
 
-      String? scheduledAt;
-      if (_scheduledAt != null) {
-        scheduledAt = DateFormat('yyyy-MM-dd HH:mm:ss').format(_scheduledAt!);
-      }
-
+      // Cambiar el formato de fecha al formato esperado por el backend
       final formData = {
         'title': _titleController.text,
         'description': _descriptionController.text,
         'social_networks': _socialNetworks.map((sn) => sn.id).toList(),
         if (_image != null) 'image': _image,
+        if (_scheduledAt != null)
+          'scheduledAt':
+              DateFormat('yyyy-MM-dd\'T\'HH:mm').format(_scheduledAt!),
       };
+
+      print('Datos enviados: $formData'); // Log para verificar los datos
 
       try {
         await ref.read(postProvider.notifier).createPost(formData);
+
         if (_scheduledAt != null) {
           context.go('/home');
         } else {
@@ -107,11 +119,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           CustomNotification(
-            message: 'Error al crear el post',
+            message: 'Error al crear el post: $e',
             status: 'error',
           ),
         );
-        context.go('/posts');
       } finally {
         setState(() {
           _isLoading = false;
@@ -174,13 +185,13 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: AppColors.lapislazuli, // header background color
-              onPrimary: AppColors.white, // header text color
-              onSurface: AppColors.erieblack, // body text color
+              primary: AppColors.lapislazuli,
+              onPrimary: AppColors.white,
+              onSurface: AppColors.erieblack,
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.lapislazuli, // button text color
+                foregroundColor: AppColors.lapislazuli,
               ),
             ),
           ),
@@ -190,9 +201,35 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     );
 
     if (pickedDate != null) {
-      setState(() {
-        _scheduledAt = pickedDate;
-      });
+      // Show time picker after date is selected
+      final pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: AppColors.lapislazuli,
+                onPrimary: AppColors.white,
+                onSurface: AppColors.erieblack,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.lapislazuli,
+                ),
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          _scheduledAt = DateTime(pickedDate.year, pickedDate.month,
+              pickedDate.day, pickedTime.hour, pickedTime.minute);
+        });
+      }
     }
   }
 
@@ -244,7 +281,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                       child: TextFormField(
                         controller: TextEditingController(
                           text: _scheduledAt != null
-                              ? DateFormat('yyyy-MM-dd HH:mm:ss')
+                              ? DateFormat('yyyy-MM-dd HH:mm')
                                   .format(_scheduledAt!)
                               : '',
                         ),
