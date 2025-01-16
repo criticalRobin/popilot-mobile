@@ -1,11 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:popilot_mobile/utils/colors.dart';
+import 'package:popilot_mobile/providers/stripe_provider.dart'; // Adjust import path as needed
 
-class PremiumCard extends StatelessWidget {
+class PremiumCard extends ConsumerStatefulWidget {
   const PremiumCard({super.key});
 
   @override
+  ConsumerState<PremiumCard> createState() => _PremiumCardState();
+}
+
+class _PremiumCardState extends ConsumerState<PremiumCard> {
+  @override
+  void initState() {
+    super.initState();
+    // Initialize Stripe when the widget is first created
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(stripeProvider.notifier).initialize();
+    });
+  }
+
+  void _handlePayment() {
+    // Trigger payment process
+    ref.read(stripeProvider.notifier).createPayment();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Listen to Stripe state
+    final stripeState = ref.watch(stripeProvider);
+
+    // Show loading dialog if payment is in progress
+    if (stripeState.isLoading) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(color: AppColors.lapislazuli,),
+          ),
+        );
+      });
+    }
+
+    // Handle payment success
+    if (stripeState.isPaymentSuccessful) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Close any open dialogs
+        Navigator.of(context, rootNavigator: true).pop();
+
+        // Show success dialog
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Pago Exitoso'),
+            content: const Text('¡Has activado tu cuenta Premium!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Optionally navigate to another screen or refresh user data
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          ),
+        );
+
+        // Reset the state
+        ref.read(stripeProvider.notifier).resetState();
+      });
+    }
+
+    // Handle payment error
+    if (stripeState.errorMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Close any open dialogs
+        Navigator.of(context, rootNavigator: true).pop();
+
+        // Show error dialog
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error de Pago'),
+            content: Text(stripeState.errorMessage!),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Reset the state
+                  ref.read(stripeProvider.notifier).resetState();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          ),
+        );
+      });
+    }
+
     return SingleChildScrollView(
       child: Center(
         child: Container(
@@ -16,7 +109,7 @@ class PremiumCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withValues(alpha: 0.1),
+                color: Colors.grey.withOpacity(0.1),
                 spreadRadius: 0,
                 blurRadius: 10,
                 offset: const Offset(0, 4),
@@ -69,7 +162,7 @@ class PremiumCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+                  border: Border.all(color: Colors.grey.withOpacity(0.2)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +245,7 @@ class PremiumCard extends StatelessWidget {
                                 'Ir a Pagar',
                                 style: TextStyle(color: AppColors.white),
                               ),
-                              onPressed: () {},
+                              onPressed: _handlePayment,
                             ),
                           ),
                         ],

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:popilot_mobile/models/facebook.dart';
-import 'package:popilot_mobile/models/social_network.dart';
 import 'package:popilot_mobile/models/social_networks_response.dart';
 import 'package:popilot_mobile/models/x.dart';
 
