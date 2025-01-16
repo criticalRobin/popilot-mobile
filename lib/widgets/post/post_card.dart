@@ -58,20 +58,21 @@ class PostCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (post.scheduledAt != null)
                   Text(
-                    'Agendado para: ${post.scheduledAt!.toString()}',
+                    'Agendado para: ${post.scheduledAt!.year}-${post.scheduledAt!.month.toString().padLeft(2, '0')}-${post.scheduledAt!.day.toString().padLeft(2, '0')} ${post.scheduledAt!.hour.toString().padLeft(2, '0')}:${post.scheduledAt!.minute.toString().padLeft(2, '0')}',
                     style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.erieblack,
                     ),
                   ),
+                const SizedBox(height: 8),
                 if (post.createdAt != null)
                   Text(
-                    'Creado: ${post.createdAt!.toString()}',
+                    'Creado: ${post.createdAt!.year}-${post.createdAt!.month.toString().padLeft(2, '0')}-${post.createdAt!.day.toString().padLeft(2, '0')} ${post.createdAt!.hour.toString().padLeft(2, '0')}:${post.createdAt!.minute.toString().padLeft(2, '0')}',
                     style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.erieblack,
